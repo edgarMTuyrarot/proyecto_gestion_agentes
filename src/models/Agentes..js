@@ -28,6 +28,9 @@ export const Agentes = sequelize.define("agentes", {
   mail: {
     type: DataTypes.STRING,
   },
+  telefono:{
+    type:DataTypes.STRING
+  },
   deleted: {
     type: DataTypes.INTEGER,
   },
