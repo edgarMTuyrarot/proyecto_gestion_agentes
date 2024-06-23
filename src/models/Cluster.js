@@ -3,7 +3,7 @@ import sequelize from '../db/connection.js';
 
 
 
-export const Cluster = sequelize.definne('clusters',{
+export const Clusters = sequelize.definne('clusters',{
     id:{
         type:DataTypes.INTEGER,
         primaryKey: true,

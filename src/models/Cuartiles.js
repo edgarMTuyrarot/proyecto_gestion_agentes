@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/connection.js";
 
-export const Cuartil = sequelize.define("cuartiles", {
+export const Cuartiles = sequelize.define("cuartiles", {
     id:{
         type:DataTypes.INTEGER,
         primaryKey: true,
