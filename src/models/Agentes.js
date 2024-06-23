@@ -1,5 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/connection.js";
+import { Deslogueos } from "./Deslogueos.js";
+import { Devoluciones } from "./Devoluciones.js";
+import { Perfilamientos } from "./Perfilamientos.js";
 
 export const Agentes = sequelize.define("agentes", {
   id: {
@@ -52,5 +55,14 @@ Agentes.hasMany(Perfilamientos, {
 });
 //Un perfilamiento pertenece a un agente.
 Perfilamientos.belongsTo(Agentes, {
+  foreignKey: "agente_id",
+});
+// Un agente puede tener muchos deslogueos
+Agentes.hasMany(Deslogueos, {
+  foreignKey: "agente_id",
+});
+
+// Un deslogueo pertenece a un agente
+Deslogueos.belongsTo(Agentes, {
   foreignKey: "agente_id",
 });
