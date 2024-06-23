@@ -25,12 +25,12 @@ export const Supervisores = sequelize.define("supervisores", {
   },
 });
 
+//Un Supervisor puede tener muchas agentes
 Supervisores.hasMany(Agentes, {
   foreignKey: "sups_id",
-  sourceKey: "id",
+  
 });
-
+//un angente pertenece a un supervisor
 Agentes.belongsTo(Supervisores, {
   foreignKey: "sups_id",
-  sourceKey: "id",
 });
