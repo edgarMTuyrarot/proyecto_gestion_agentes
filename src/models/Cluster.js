@@ -11,4 +11,3 @@ export const Clusters = sequelize.definne("clusters", {
     type: DataTypes.STRING,
   },
 });
-

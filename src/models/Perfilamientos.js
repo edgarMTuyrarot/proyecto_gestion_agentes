@@ -2,7 +2,6 @@ import { DataTypes } from "sequelize";
 import sequelize from "../db/connection.js";
 import { Clusters } from "./Cluster.js";
 import { Cuartiles } from "./Cuartiles.js";
-import { Agentes } from "./Agentes.js";
 
 export const Perfilamientos = sequelize("perfilamientos", {
   id: {
