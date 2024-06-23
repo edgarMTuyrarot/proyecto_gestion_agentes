@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/connection.js";
-import { Agentes } from "./Agentes..js";
+import { Agentes } from "./Agentes.js";
 
 export const Supervisores = sequelize.define("supervisores", {
   id: {
