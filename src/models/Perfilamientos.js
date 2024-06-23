@@ -4,44 +4,28 @@ import { Clusters } from "./Cluster.js";
 import { Cuartiles } from "./Cuartiles.js";
 import { Agentes } from "./Agentes.js";
 
-
-export const Perfilamientos = sequelize('perfilamientos',{
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    mes:{
-        type: DataTypes.STRING
-    },
-
-})
-
-Perfilamientos.hasMany(Agentes, {
-    foreignKey: "agente_id",
-    sourceKey: "id",
-});
-
-Agentes.belongsTo(Perfilamientos, {
-    foreignKey: "agente_id",
-    sourceKey: "id",
+export const Perfilamientos = sequelize("perfilamientos", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  mes: {
+    type: DataTypes.STRING,
+  },
 });
 
 Perfilamientos.hasMany(Clusters, {
-    foreignKey: "cluster_id",
-    sourceKey: "id",
+  foreignKey: "cluster_id",
 });
 
 Clusters.belongsTo(Perfilamientos, {
-    foreignKey: "cluster_id",
-    sourceKey: "id",
+  foreignKey: "cluster_id",
 });
 Perfilamientos.hasMany(Cuartiles, {
-    foreignKey: "cuartil_id",
-    sourceKey: "id",
+  foreignKey: "cuartil_id",
 });
 
 Cuartiles.belongsTo(Perfilamientos, {
-    foreignKey: "cuartil_id",
-    sourceKey: "id",
+  foreignKey: "cuartil_id",
 });

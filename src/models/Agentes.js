@@ -37,4 +37,20 @@ export const Agentes = sequelize.define("agentes", {
  
 });
 
+// Un agente puede tener muchas devoluciones
+Agentes.hasMany(Devoluciones, {
+  foreignKey: "agente_id",
+});
 
+// Una devolución pertenece a un agente
+Devoluciones.belongsTo(Agentes, {
+  foreignKey: "agente_id",
+});
+// Un agente puede tener muchos perfilamientos
+Agentes.hasMany(Perfilamientos, {
+  foreignKey: "agente_id",
+});
+//Un perfilamiento pertenece a un agente.
+Perfilamientos.belongsTo(Agentes, {
+  foreignKey: "agente_id",
+});
