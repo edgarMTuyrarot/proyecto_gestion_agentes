@@ -3,7 +3,7 @@ import sequelize from "../db/connection.js";
 import { Clusters } from "./Cluster.js";
 import { Cuartiles } from "./Cuartiles.js";
 
-export const Perfilamientos = sequelize("perfilamientos", {
+export const Perfilamientos = sequelize.define("perfilamientos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -12,19 +12,26 @@ export const Perfilamientos = sequelize("perfilamientos", {
   mes: {
     type: DataTypes.STRING,
   },
+  cuartil_id:{
+    type: DataTypes.INTEGER
+  },
+  cluster_id:{
+    type:DataTypes.INTEGER
+  }
 });
 
-Perfilamientos.hasMany(Clusters, {
+Clusters.hasMany(Perfilamientos, {
   foreignKey: "cluster_id",
 });
 
-Clusters.belongsTo(Perfilamientos, {
-  foreignKey: "cluster_id",
+Clusters.belongsTo(Perfilamientos,{
+  foreignKey: "id",
 });
-Perfilamientos.hasMany(Cuartiles, {
+
+Cuartiles.hasMany(Perfilamientos, {
   foreignKey: "cuartil_id",
 });
 
 Cuartiles.belongsTo(Perfilamientos, {
-  foreignKey: "cuartil_id",
+  foreignKey: "id",
 });

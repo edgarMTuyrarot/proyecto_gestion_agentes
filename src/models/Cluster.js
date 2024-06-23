@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/connection.js";
+import { Perfilamientos } from "./Perfilamientos.js";
 
-export const Clusters = sequelize.definne("clusters", {
+export const Clusters = sequelize.define("clusters", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,3 +12,4 @@ export const Clusters = sequelize.definne("clusters", {
     type: DataTypes.STRING,
   },
 });
+
