@@ -19,6 +19,9 @@ export const Supervisores = sequelize.define('supervisores',{
     mail:{
         type:DataTypes.STRING
     },
+    telefono:{
+        type:DataTypes.STRING
+    },
     deleted:{
         type:DataTypes.INTEGER
     }
