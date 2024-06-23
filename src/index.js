@@ -14,9 +14,10 @@ import sequelize from "./db/connection.js";
 
 async function main() {
   try {
-    await sequelize.sync()
+    await sequelize.sync({force:false})
     //Levantando server
     app.listen(PORT);
+    console.log('server on')
   } catch (error) {
     console.log(error)
   }

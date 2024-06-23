@@ -12,7 +12,7 @@ const router = Router();
 router.get("/sups", getSups);
 router.get("/sup/:id", getSup);
 router.post("/sups", postSup);
-router.patch("/sup/:id", updateSup);
+router.put("/sup/:id", updateSup);
 router.delete("/sup/:id", deleteSup);
 
 export default router;

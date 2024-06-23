@@ -8,7 +8,7 @@ export const Supervisores = sequelize.define("supervisores", {
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
+  nombre: {
     type: DataTypes.STRING,
   },
   apellido: {

@@ -1,43 +1,10 @@
 import { pool } from "../src/db.js";
+import { Supervisores } from "../src/models/Supervisores.js";
 
 export const getSups = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM sups WHERE deleted != 1");
-    res.json(rows);
-  } catch (error) {
-    res.status(500).json({
-      message: "algo salio mal",
-    });
-  }
-};
-
-export const getSup = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const [rows] = await pool.query("SELECT * FROM sups WHERE id = (?) AND  deleted != 1", id);
-    if (rows.length <= 0) {
-      res.status(404).json({
-        message: "Sin Sup",
-      });
-    }
-    res.json(rows[0]);
-  } catch (error) {
-    res.status(500).json({
-      message: "algo salio mal",
-    });
-  }
-};
-
-export const postSup = async (req, res) => {
-  try {
-    const { nombre, apellido, legajo, fecha_ingreso, dni, mail, jcc_id } =
-      req.body;
-    const [result] = await pool.query(
-      "INSERT INTO sups (nombre,apellido,legajo,fecha_ingreso,dni,mail,jcc_id) VALUES (?,?,?,?,?,?,?)",
-      [nombre, apellido, legajo, new Date(fecha_ingreso), dni, mail, jcc_id]
-    );
-
-    res.send(result);
+    const supervisores = await Supervisores.findAll()
+    res.json(supervisores);
   } catch (error) {
     res.status(500).json({
       message: error,
@@ -45,41 +12,58 @@ export const postSup = async (req, res) => {
   }
 };
 
+export const getSup = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const supervisor = await Supervisores.findAll({ where: { apellido: id } })
+    res.json(supervisor);
+  } catch (error) {
+    res.status(500).json({
+      message: error,
+    });
+  }
+};
+
+export const postSup = async (req, res) => {
+  try {
+    const { nombre, apellido,mail, telefono } =
+      req.body;
+
+    const resultado = await Supervisores.create({
+      nombre,
+      apellido,
+      mail,
+      telefono,
+      deleted:0
+
+    });
+    res.send(resultado);
+  } catch (error) {
+    res.status(500).json({
+      message: error,
+    });
+  }
+};
+
+//controlador para actualizar los campos del registro que se trae por id.
 export const updateSup = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+    const supervisor = await Supervisores.findOne({ where: { id } })
     const {
       nombre,
       apellido,
-      legajo,
-      fecha_ingreso,
-      dni,
       mail,
-      jcc_id,
+      telefono
     } = req.body;
-    const [result] = await pool.query(
-      "UPDATE sups SET nombre=IFNULL(?,nombre),apellido=IFNULL(?,apellido),legajo=IFNULL(?,legajo),fecha_ingreso=IFNULL(?,fecha_ingreso),dni=IFNULL(?,dni),mail=IFNULL(?,mail),jcc_id=IFNULL(?,jcc_id) WHERE ID=(?) AND deleted != 1 ",
-      [
+    supervisor.update({
+      nombre,
+      apellido,
+      mail,
+      telefono
+    })
+    res.json(supervisor)
 
-        nombre,
-        apellido,
-        legajo,
-        new Date(fecha_ingreso),
-        dni,
-        mail,
-        jcc_id,
-        id,
-      ]
-    );
-    if (result.affectedRows === 0) {
-      res.status(404).json({
-        message: "Sup no encontrado",
-      });
-    } else {
-      const [rows] = await pool.query("SELECT * FROM sups WHERE id=?", id);
-      res.json(rows[0]);
-    }
   } catch (error) {
     res.status(500).json({
       message: error,
@@ -91,16 +75,11 @@ export const updateSup = async (req, res) => {
 export const deleteSup = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await pool.query(
-      "UPDATE sups SET deleted = 1 WHERE id=?",
-      [id]
-    );
-    if (result.affectedRows === 0) {
-      res.status(404).json({
-        message: "Sup no encontrado",
-      });
-    }
-    res.json(result);
+    const supervisor= await Supervisores.findOne({where:{apellido:id}})
+    supervisor.update({
+      deleted:1
+    })
+    res.json(supervisor);
   } catch (error) {
     res.status(500).json({
       message: error,
