@@ -1,13 +1,16 @@
 import { pool } from "../src/db.js";
+import { Agentes } from "../src/models/Agentes.js";
 
-//Controlador Get de todos los agentes de la tabla
+
+//Controller for find all agents
 export const getAgentes = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM agentes WHERE deleted !=1 ");
-    res.json(rows);
+    const agentes = await Agentes.findAll({where:{deleted:0}})
+
+    res.json(agentes);
   } catch (error) {
     res.status(500).json({
-      message: "algo salio mal",
+      message: error
     });
   }
 };
@@ -33,7 +36,7 @@ export const getAgente = async (req, res) => {
   }
 };
 
-//Controlador para agregar agentes a la tabla
+//Controller for create an Agente
 export const postAgente = async (req, res) => {
   try {
     const {
@@ -41,29 +44,26 @@ export const postAgente = async (req, res) => {
       nombre,
       apellido,
       legajo,
-      fecha_ingreso,
       score,
       dni,
       mail,
-      sup_id,
-    } = req.body;
-    const [result] = await pool.query(
-      "INSERT INTO agentes (usuario_teco,nombre,apellido,legajo,fecha_ingreso,score,dni,mail,sup_id,deleted) VALUES (?,?,?,?,?,?,?,?,?)",
-      [
-        usuario_teco,
-        nombre,
-        apellido,
-        legajo,
-        new Date(fecha_ingreso),
-        score,
-        dni,
-        mail,
-        sup_id,
-        0,
-      ]
-    );
+      telefono,
+      sups_id,
+      } = req.body;
+    
+    const agente = await Agentes.create({
+      nombre,
+      apellido,
+      usuario_teco,
+      legajo,
+      score,
+      dni,
+      telefono,
+      mail,
+      sups_id
+    })
 
-    res.send(result);
+    res.json(agente);
   } catch (error) {
     res.status(500).json({
       message: error,
@@ -75,41 +75,34 @@ export const postAgente = async (req, res) => {
 export const updateAgente = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+    const agente = await Agentes.findOne({
+      where:{id}
+    })
     const {
       usuario_teco,
       nombre,
       apellido,
       legajo,
-      fecha_ingreso,
       score,
       dni,
       mail,
-      sup_id,
+      sups_id,
     } = req.body;
-    const [result] = await pool.query(
-      "UPDATE agentes SET usuario_teco=IFNULL(?,usuario_teco),nombre=IFNULL(?,nombre),apellido=IFNULL(?,apellido),legajo=IFNULL(?,legajo),fecha_ingreso=IFNULL(?,fecha_ingreso),score=IFNULL(?,score),dni=IFNULL(?,dni),mail=IFNULL(?,mail),sup_id=IFNULL(?,sup_id) WHERE ID=(?) AND deleted != 1 ",
-      [
-        usuario_teco,
-        nombre,
-        apellido,
-        legajo,
-        new Date(fecha_ingreso),
-        score,
-        dni,
-        mail,
-        sup_id,
-        id,
-      ]
-    );
-    if (result.affectedRows === 0) {
-      res.status(404).json({
-        message: "Agente no encontrado",
-      });
-    } else {
-      const [rows] = await pool.query("SELECT * FROM agentes WHERE id=?", id);
-      res.json(rows[0]);
-    }
+
+    const respuesta = await agente.update({
+      usuario_teco,
+      nombre,
+      apellido,
+      legajo,
+      score,
+      dni,
+      mail,
+      sups_id
+
+    })
+
+    res.json(respuesta)
+
   } catch (error) {
     res.status(500).json({
       message: error,
