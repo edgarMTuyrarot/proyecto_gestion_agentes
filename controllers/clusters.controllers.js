@@ -1,9 +1,9 @@
-import { Cuartiles } from "../src/models/Cuartiles.js";
+import { Clusters } from "../src/models/Cluster.js";
 
 //Get All Cuartiles
-export const getCuartiles = async (req, res) => {
+export const getClusters = async (req, res) => {
   try {
-    const cuartiles = await Cuartiles.findAll()
+    const cuartiles = await Clusters.findAll()
     res.json(cuartiles);
   } catch (error) {
     res.status(500).json({
@@ -13,10 +13,10 @@ export const getCuartiles = async (req, res) => {
 };
 
 //Controller to get a Cuartil by ID
-export const getCuartil = async (req, res) => {
+export const getCluster = async (req, res) => {
   try {
     const id = req.params.id;
-    const cuartil = await Cuartiles.findByPk(id)
+    const cuartil = await Clusters.findByPk(id)
     res.json(cuartil);
   } catch (error) {
     res.status(500).json({
@@ -26,13 +26,13 @@ export const getCuartil = async (req, res) => {
 };
 
 //Controller to creat a Cuartil
-export const postCuartil = async (req, res) => {
+export const postCluster = async (req, res) => {
   try {
     const {
-      cuartil,
+        cluster,
     } = req.body;
-    const response = await Cuartiles.create({
-      cuartil
+    const response = await Clusters.create({
+      cluster
     })
     res.send(response);
   } catch (error) {
@@ -43,15 +43,15 @@ export const postCuartil = async (req, res) => {
 };
 
 //Controller to update a Cuartil
-export const updateCuartil = async (req, res) => {
+export const updateCluster = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      cuartil
+      cluster
     } = req.body;
-    const response =  await Cuartiles.findByPk(id)
+    const response =  await Clusters.findByPk(id)
     const result = await response.update({
-      cuartil
+      cluster
     })
     
     res.json(result);
@@ -64,12 +64,11 @@ export const updateCuartil = async (req, res) => {
 };
 
 //Controller to delete a Cuartil
-export const deleteCuartil = async (req, res) => {
+export const deleteCluster = async (req, res) => {
   try {
     const { id } = req.params;
-    const cuartil = await Cuartiles.destroy({where:{id}})
-
-    res.json(cuartil);
+    const cluster = await Clusters.destroy({where:{id}})
+    res.json(cluster);
   } catch (error) {
     res.status(500).json({
       message: error,

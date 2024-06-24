@@ -8,6 +8,7 @@ import devolucionesRoutes from "../routes/devoluciones.routes.js";
 import fcrRoutes from "../routes/fcr.routes.js";
 import cuartilesRoutes from '../routes/cuartiles.routes.js'
 import perfilamientosRoutes from '../routes/perfilamientos.routes.js'
+import clustersRoutes from '../routes/clusters.routes.js'
 import {PORT} from './config.js'
 
 
@@ -26,6 +27,7 @@ app.use(jccsRoutes);
 app.use(devolucionesRoutes);
 app.use(fcrRoutes);
 app.use(cuartilesRoutes);
+app.use(clustersRoutes);
 app.use(perfilamientosRoutes);
 
 
