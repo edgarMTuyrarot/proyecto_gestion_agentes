@@ -21,17 +21,17 @@ export const Perfilamientos = sequelize.define("perfilamientos", {
 });
 
 Clusters.hasMany(Perfilamientos, {
+  foreignKey: "id",
+});
+
+Perfilamientos.belongsTo(Clusters,{
   foreignKey: "cluster_id",
 });
 
-Clusters.belongsTo(Perfilamientos,{
-  foreignKey: "id",
-});
-
 Cuartiles.hasMany(Perfilamientos, {
-  foreignKey: "cuartil_id",
+  foreignKey: "id",
 });
 
-Cuartiles.belongsTo(Perfilamientos, {
-  foreignKey: "id",
+Perfilamientos.belongsTo(Cuartiles, {
+  foreignKey: "cuartil_id",
 });

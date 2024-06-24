@@ -12,7 +12,7 @@ const router = Router();
 router.get("/agentes", getAgentes);
 router.get("/agente/:id", getAgente);
 router.post("/agentes", postAgente);
-router.patch("/agente/:id", updateAgente);
+router.put("/agente/:id", updateAgente);
 router.delete("/agente/:id", deleteAgentes); 
 
 export default router;

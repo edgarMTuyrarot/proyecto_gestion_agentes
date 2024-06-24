@@ -1,10 +1,11 @@
 import { pool } from "../src/db.js";
+import { Cuartiles } from "../src/models/Cuartiles.js";
 
-//Controlador Get de todos los agentes de la tabla
+//Get All Cuartiles
 export const getCuartiles = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM cuartiles");
-    res.json(rows);
+    const cuartiles = await Cuartiles.findAll()
+    res.json(cuartiles);
   } catch (error) {
     res.status(500).json({
       message: error,
@@ -12,20 +13,12 @@ export const getCuartiles = async (req, res) => {
   }
 };
 
-//Controlador de un agente en particular requiere el id por parametros
+//Controller to get a Cuartil by ID
 export const getCuartil = async (req, res) => {
   try {
     const id = req.params.id;
-    const [rows] = await pool.query(
-      "SELECT * FROM cuartiles WHERE id = (?)",
-      id
-    );
-    if (rows.length <= 0) {
-      res.status(404).json({
-        message: "Sin Cuartil",
-      });
-    }
-    res.json(rows[0]);
+    const cuartil = await Cuartiles.findByPk(id)
+    res.json(cuartil);
   } catch (error) {
     res.status(500).json({
       message: error,
@@ -33,22 +26,16 @@ export const getCuartil = async (req, res) => {
   }
 };
 
-//Controlador para agregar agentes a la tabla
+//Controller to creat a Cuartil
 export const postCuartil = async (req, res) => {
   try {
     const {
       cuartil,
-
     } = req.body;
-    const [result] = await pool.query(
-      "INSERT INTO cuartiles (cuartil) VALUES (?)",
-      [
-        cuartil,
-      
-      ]
-    );
-
-    res.send(result);
+    const response = await Cuartiles.create({
+      cuartil
+    })
+    res.send(response);
   } catch (error) {
     res.status(500).json({
       message: error,
@@ -56,44 +43,34 @@ export const postCuartil = async (req, res) => {
   }
 };
 
-//Controlador para actualizar algun campo de algun agente en particular, mediante meteodo patch en ruta
+//Controller to update a Cuartil
 export const updateCuartil = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const {
       cuartil
     } = req.body;
-    const [result] = await pool.query(
-      "UPDATE cuartil SET cluster=IFNULL(?,cuartil) WHERE ID=(?)",
-      [cuartil, id]
-    );
-    if (result.affectedRows === 0) {
-      res.status(404).json({
-        message: "Cuartil no encontrado",
-      });
-    } else {
-      const [rows] = await pool.query("SELECT * FROM cuartiles WHERE id=?", id);
-      res.json(rows[0]);
-    }
+    const response =  await Cuartiles.findByPk(id)
+    const result = await response.update({
+      cuartil
+    })
+    
+    res.json(result);
+    
   } catch (error) {
     res.status(500).json({
-      message: error,
+      message: error.message,
     });
   }
 };
 
-//Controlador para borrar agente de la tabla, solo se cambia el valor del campo deleted del registro a 1
+//Controller to delete a Cuartil
 export const deleteCuartil = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await pool.query("delete cuartiles  WHERE id=?", [id]);
-    if (result.affectedRows === 0) {
-      res.status(404).json({
-        message: "Cuartil no encontrado",
-      });
-    }
-    res.json(result);
+    const cuartil = await Cuartiles.destroy({where:{id}})
+
+    res.json(cuartil);
   } catch (error) {
     res.status(500).json({
       message: error,
