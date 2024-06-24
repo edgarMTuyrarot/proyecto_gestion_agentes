@@ -1,6 +1,6 @@
 import {Router} from 'express'
 
-import {getPerfilamiento,getPerfilamientos,postPerfilamiento} from '../controllers/perfilamientos.controllers.js'
+import {deletePerfilamiento, getPerfilamiento,getPerfilamientos,postPerfilamiento, updatePerfilamiento} from '../controllers/perfilamientos.controllers.js'
 
 const router = Router();
 
@@ -8,6 +8,8 @@ const router = Router();
 router.get("/perfilamientos",getPerfilamientos)
 router.get("/perfilamiento/:id",getPerfilamiento)
 router.post("/perfilamiento",postPerfilamiento)
+router.put("/perfilamiento/:id",updatePerfilamiento)
+router.delete("/perfilamiento/:id",deletePerfilamiento)
 
 
 
