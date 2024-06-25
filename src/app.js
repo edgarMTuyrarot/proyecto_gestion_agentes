@@ -24,7 +24,7 @@ app.use(indexRouter);
 app.use(agentesRoutes);
 app.use(supsRoutes);
 app.use(jccsRoutes);
-app.use(devolucionesRoutes);
+app.use("/devoluciones",devolucionesRoutes);
 app.use(fcrRoutes);
 app.use(cuartilesRoutes);
 app.use(clustersRoutes);
