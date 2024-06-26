@@ -8,6 +8,8 @@ import fcrRoutes from "../routes/fcr.routes.js";
 import cuartilesRoutes from "../routes/cuartiles.routes.js";
 import perfilamientosRoutes from "../routes/perfilamientos.routes.js";
 import clustersRoutes from "../routes/clusters.routes.js";
+import usersRoutes from "../routes/users.routes.js";
+import rolsRoutes from "../routes/roles.routes.js";
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(express.json());
 //Usando rutas
 app.use(indexRouter);
 app.use(fcrRoutes);
+app.use("/rols",rolsRoutes)
+app.use("/users",usersRoutes)
 app.use("/agentes", agentesRoutes);
 app.use("/sups", supsRoutes);
 app.use("/devoluciones", devolucionesRoutes);

@@ -9,6 +9,8 @@ import "./models/Cluster.js";
 import "./models/Cuartiles.js";
 import "./models/Devoluciones.js";
 import "./models/Perfilamientos.js";
+import "./models/Users.js"
+import "./models/Roles.js"
 
 import sequelize from "./db/connection.js";
 
