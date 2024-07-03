@@ -19,14 +19,18 @@ export const Users = sequelize.define("users", {
   },
 });
 
-// Un usuario puede tener muchos roles
-Roles.hasMany(Users, {
-  foreignKey: "id",
-});
-
-//Un rol pertenece a un usuario
+// Un usuario pertenece a un rol
 Users.belongsTo(Roles, {
-  foreignKey: "rol_id",
+  foreignKey: 'rol_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
 });
 
+// Un rol puede tener muchos usuarios
+Roles.hasMany(Users, {
+  foreignKey: 'rol_id',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 
+Users.sync({force:true})

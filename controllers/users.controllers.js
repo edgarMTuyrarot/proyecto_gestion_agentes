@@ -1,4 +1,5 @@
 import { Users } from "../src/models/Users.js";
+import bcryptjs from "bcryptjs";
 
 
 export const getUsers = async (req, res) => {
@@ -23,13 +24,15 @@ export const postUsers = async (req, res) => {
     if (usuarioCreado) {
       res.send("usuario existente");
     } else {
+      const salt = await bcryptjs.genSalt(10)
+      const hashPassword = await bcryptjs.hash(password,salt)
       const newUser = await Users.create({
         nombre,
         mail,
-        password,
-        rol_id: 1,
+        password:hashPassword,
+        rol_id:1
       });
-      res.json(newUser);
+      res.json(newUser.rol_id);
     }
   } catch (error) {
     res.status(500).json({
