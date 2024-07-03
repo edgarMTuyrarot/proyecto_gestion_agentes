@@ -1,4 +1,3 @@
-import { pool } from "../src/db.js";
 import { Supervisores } from "../src/models/Supervisores.js";
 
 //Controller for find Supervisors, response is an array of Supervisors
