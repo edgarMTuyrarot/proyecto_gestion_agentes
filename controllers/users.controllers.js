@@ -19,6 +19,7 @@ export const postUsers = async (req, res) => {
     const usuarioCreado = await Users.findOne({
       where: { mail },
     });
+
     if (usuarioCreado) {
       res.send("usuario existente");
     } else {
@@ -28,7 +29,6 @@ export const postUsers = async (req, res) => {
         password,
         rol_id: 1,
       });
-
       res.json(newUser);
     }
   } catch (error) {
