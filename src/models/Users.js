@@ -33,4 +33,3 @@ Roles.hasMany(Users, {
   onUpdate: 'CASCADE',
 });
 
-Users.sync({force:true})
