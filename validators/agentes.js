@@ -1,6 +1,9 @@
 import { check } from "express-validator";
 import { validateResult } from "../helpers/validateHelper.js";
-//Validacion para creacion de agentes.
+
+/**
+ * Validaciones de parametros antes de pasar al controlador de creacion de agentes
+ */
 export const agenteCreateValidate = [
   check("nombre")
     .trim()

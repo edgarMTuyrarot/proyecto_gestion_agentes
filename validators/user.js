@@ -1,7 +1,9 @@
 import { check } from "express-validator";
 import { validateResult } from "../helpers/validateHelper.js";
 
-//Validacion para creacion de usuarios.
+/**
+ * Validaciones de parametros antes de pasar al controlador para crear un usuario
+ */
 export const userCreateValidate = [
   check("nombre")
     .exists()
@@ -27,6 +29,9 @@ export const userCreateValidate = [
   },
 ];
 
+/**
+ * Validaciones de parametros antes de pasar al middleware de login
+ */
 export const userLoginValidate = [
 
   check("mail")

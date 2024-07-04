@@ -1,6 +1,9 @@
 import { check } from "express-validator";
 import { validateResult } from "../helpers/validateHelper.js";
 
+/**
+ * validaciones de parametros antes de pasar al controlador de creacion de supervisor
+ */
 export const createSupsValidate = [
   check("nombre")
     .exists()
