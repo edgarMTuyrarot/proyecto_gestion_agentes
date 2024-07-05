@@ -9,10 +9,10 @@ import {
 const router = Router();
 
 //Rutas
-router.get("/all", getDevoluciones);
+router.get("/todo", getDevoluciones);
 router.get("/buscar/:id", getDevolucion);
-router.post("/create/", postDevolucion);
-router.patch("/update/:id", updateDevolucion);
+router.post("/crear/", postDevolucion);
+router.patch("/actualizar/:id", updateDevolucion);
 router.delete("/borrar/:id", deleteDevolucion); 
 
 export default router;

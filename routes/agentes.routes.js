@@ -11,10 +11,10 @@ import { agenteCreateValidate } from "../validators/agentes.js";
 const router = Router();
 
 //Rutas
-router.get("/agentes", getAgentes);
-router.get("/agente/:id", getAgente);
+router.get("/todos", getAgentes);
+router.get("/buscar/:id", getAgente);
 router.post("/crear",agenteCreateValidate, postAgente);
-router.put("/agente/:id", updateAgente);
-router.delete("/agente/:id", deleteAgentes);
+router.put("/actualizar/:id", updateAgente);
+router.delete("/borrar/:id", deleteAgentes);
 
 export default router;

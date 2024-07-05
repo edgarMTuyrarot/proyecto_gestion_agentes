@@ -2,7 +2,7 @@ import { pool } from "../src/db.js";
 import { Devoluciones } from "../src/models/Devoluciones.js";
 import { Agentes } from "../src/models/Agentes.js";
 
-//Get all devolciones
+/**Funcion para devolver un JSON con todas las devolucion, se incluye nombre y apellido del agente */
 export const getDevoluciones = async (req, res) => {
   try {
     const devoluciones = await Devoluciones.findAll({

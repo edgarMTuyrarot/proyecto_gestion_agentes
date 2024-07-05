@@ -49,7 +49,6 @@ export const agenteCreateValidate = [
     .isEmpty()
     .withMessage("Verificar Telefono"),
   check("mail").trim().exists().isEmail().withMessage("Ingrese mail valido"),
-  check("sup_id").trim().exists().isInt().withMessage("Sup ID erroneo"),
   (req, res, next) => {
     validateResult(req, res, next);
   },
