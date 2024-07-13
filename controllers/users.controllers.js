@@ -98,6 +98,7 @@ export const loginUser = async (req, res) => {
     const token = jsonwebtoken.sign(
       {
         email: user.mail,
+        rol_id: user.rol_id
       },
       process.env.JWT_SECRET,
       {
@@ -140,6 +141,7 @@ export const userProfile = async (req,res)=>{
      */
     return res.json({nombre,rol_id})
   } catch (error) {
+    /**Retorna el erro y msj de error */
     res.status(500).json({error:error.msg})
   }
 }

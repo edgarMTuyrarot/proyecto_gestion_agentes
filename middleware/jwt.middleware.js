@@ -22,13 +22,33 @@ export const verifyToken = async (req, res, next) => {
    *Se intenta verificar el token pasando el token obtenido desde el headers y la secret word desde el process.env
    */
   try {
-    const { email } = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    const { email,rol_id } = jsonwebtoken.verify(token, process.env.JWT_SECRET);
     /**
      * Se desestructura el email, que luego se envia al req, mediante el next
      */
     req.email = email
+    req.rol_id =rol_id
     next();
   } catch (error) {
     res.status(400).json(error.message)
   }
 };
+/**
+ * Se tiene que verificar que el rol_id sea igual al administrador
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {next} next 
+ * @returns 
+ */
+export const verifyAdmin =  async (req,res,next)=>{
+
+  if(req.rol_id == 1 ){
+    return next()
+  }
+  return res.status(403).json({
+    "error":"Solo admin"
+  })
+
+
+
+}
