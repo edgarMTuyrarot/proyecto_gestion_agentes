@@ -1,9 +1,17 @@
 import { Agentes } from "../src/models/Agentes.js";
+import {Supervisores} from '../src/models/Supervisores.js'
 
 //**Se establece una funcion mediante GET para devolver todos los registros de la tabla agentes, donde 'deleted'==0 */
 export const getAgentes = async (req, res) => {
   try {
-    const agentes = await Agentes.findAll({ where: { deleted: 0 } });
+    const agentes = await Agentes.findAll({
+      where: { deleted: 0 },
+      include: {
+        model: Supervisores,
+        attributes: ['nombre', 'apellido'],
+        required: true // Esto asegura que se haga un INNER JOIN
+      },
+    });
 
     res.json(agentes);
   } catch (error) {

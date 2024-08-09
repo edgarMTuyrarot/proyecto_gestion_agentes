@@ -1,4 +1,5 @@
 import { Users } from "../src/models/Users.js";
+import { Roles } from "../src/models/Roles.js";
 import bcryptjs from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 
@@ -19,20 +20,20 @@ export const getUsers = async (req, res) => {
   }
 };
 /**
- * 
- * @param {Request} req Espera nombre: String, mail:String, password:String 
+ *
+ * @param {Request} req Espera nombre: String, mail:String, password:String, rol: integer
  * @param {Response} res Responde con un JSON con el token
  */
 export const postUsers = async (req, res) => {
   try {
-    const { nombre, mail, password } = req.body;
+    const { nombre, mail, password, rol } = req.body;
     /**
      * Se valida mediante el modelo Users, que no exista el usuario registrado mediante mail en la tabla.
      */
     const usuarioCreado = await Users.findOne({
       where: { mail },
     });
-    /** 
+    /**
      * Si el usuario existe responde con "USUARIO EXISTENTE"
      */
     if (usuarioCreado) {
@@ -45,7 +46,7 @@ export const postUsers = async (req, res) => {
         nombre,
         mail,
         password: hashPassword,
-        rol_id: 1,
+        rol_id: rol,
       });
       /**
        * Se utiliza el jsonwebtoken.Sing, para crear el token con validez de una hora(1h)
@@ -70,19 +71,24 @@ export const postUsers = async (req, res) => {
 };
 
 /**
- * 
+ *
  * @param {Request} req se espera un 'mail' y 'password'
- * @param {object} res 
- * @returns {JSON} retorna un json con el token
+ * @param {object} res
+ * @returns {JSON} retorna un json con el token, rol
  */
 export const loginUser = async (req, res) => {
-  
   try {
-
     const { mail, password } = req.body;
     /**Se valida que exista el usuario consulta en la tabla mediante un where=>mail */
     const user = await Users.findOne({
-      where: { mail},
+      where: { mail },
+      include: [
+        {
+          model: Roles,
+          required: true,
+          attributes: ["rol"],
+        },
+      ],
     });
     /**Si el usuario no existe se responde con un JSON  */
     if (!user) {
@@ -98,50 +104,54 @@ export const loginUser = async (req, res) => {
     const token = jsonwebtoken.sign(
       {
         email: user.mail,
-        rol_id: user.rol_id
+        rol_id: user.rol_id,
       },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
       }
     );
-
-    return res.json({token})
-
+    const response = {
+      nombre: user.nombre,
+      mail: user.mail,
+      rol: user.role.rol,
+      token: token,
+    };
+    return res.json(response);
   } catch (error) {
-    console.log(error)
-    res.status(500).json({error:error.msg})
+    console.log(error);
+    res.status(500).json({ error: error.msg });
   }
 };
 
 /**
- * 
+ *
  * @param {Request} req se espera 'email'
- * @param {Response} res 
+ * @param {Response} res
  * @returns retorna un objeto mediante una consulta previa con datos del usuario
  */
-export const userProfile = async (req,res)=>{
+export const userProfile = async (req, res) => {
   try {
     /**
      * Se recupera el mail desde el request enviado desde el middleware jwt.middleware.js
      */
-    const mail = req.email
+    const mail = req.email;
     /**
      *Se realiza la consulta a la BBDD con condicon del mail para recuperar el usuario completo.
      */
     const profile = await Users.findOne({
-      where:{mail}
-    })
+      where: { mail },
+    });
     /**
      *Se desestructura el usuario, obeteniendo el nombre y rol
      */
-    const {nombre,rol_id} = profile
+    const { nombre, rol_id } = profile;
     /**
      *Se responde con el nombre y rol
      */
-    return res.json({nombre,rol_id})
+    return res.json({ nombre, rol_id });
   } catch (error) {
     /**Retorna el erro y msj de error */
-    res.status(500).json({error:error.msg})
+    res.status(500).json({ error: error.msg });
   }
-}
+};

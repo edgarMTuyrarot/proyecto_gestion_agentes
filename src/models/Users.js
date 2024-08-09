@@ -17,6 +17,9 @@ export const Users = sequelize.define("users", {
   password: {
     type: DataTypes.STRING,
   },
+  rol_id: {
+    type: DataTypes.INTEGER,
+  },
 });
 
 // Un usuario pertenece a un rol
@@ -32,4 +35,3 @@ Roles.hasMany(Users, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-
