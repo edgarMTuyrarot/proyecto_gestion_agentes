@@ -1,5 +1,4 @@
 import jsonwebtoken from "jsonwebtoken";
-
 /**
  * 
  * Se verifica que el token sea validado mediante jwt
