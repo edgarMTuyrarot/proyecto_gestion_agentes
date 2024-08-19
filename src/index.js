@@ -2,8 +2,7 @@ import app from "./app.js";
 import { PORT } from "./config.js";
 
 /**Se importa todos los modelos para poder usarlos en todas las futuras llamadas */
-import "./models/Supervisores.js";
-import "./models/Agentes.js";
+
 import "./models/Users.js"
 import "./models/Roles.js"
 

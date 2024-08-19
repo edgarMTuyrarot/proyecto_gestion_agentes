@@ -1,7 +1,5 @@
 import express from "express";
 import morgan from "morgan";
-import agentesRoutes from "../routes/agentes.routes.js";
-import supsRoutes from "../routes/sups.routes.js";
 import indexRouter from "../routes/index.routes.js";
 import usersRoutes from "../routes/users.routes.js";
 import rolsRoutes from "../routes/roles.routes.js";
@@ -19,8 +17,7 @@ app.use(cors());
 app.use("/",indexRouter);
 app.use("/rols",rolsRoutes)
 app.use("/users",usersRoutes)
-app.use("/agentes", agentesRoutes);
-app.use("/sups", supsRoutes);
+
 
 
 /**Se establece el envio de un JSON para los endpoints invalidos */
